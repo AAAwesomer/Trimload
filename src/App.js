@@ -1,24 +1,39 @@
+/* global chrome */
+
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      domain: '',
+      images: []
+    }
+  }
+
+  componentDidMount() {
+    chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
+      const url = new URL(tabs[0].url);
+      const domain = url.hostname;
+      this.setState({
+        domain: domain,
+      });
+      this.getImages(domain);
+    });
+  }
+
+  getImages(query) {
+    console.log("hi")
+  }
+
   render() {
     return (
       <div className="App">
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
+          Images
         </header>
       </div>
     );
